@@ -16,7 +16,7 @@ Add the following dependency to your `pom.xml` file:
 <dependency>
 	<groupId>dev.all-things.boot</groupId>
 	<artifactId>hazelcast-spring-boot-starter</artifactId>
-	<version>1.1.1</version>
+	<version>1.2.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -32,7 +32,7 @@ Add the following dependency to your `pom.xml` file:
 
 ### Client Properties
 
-Set `application.cache.hazelcast.mode = client` to use following properties.
+Set `application.cache.hazelcast.mode = client` to use the following properties.
 
 | Property                                                | Description                                                   |
 |---------------------------------------------------------|---------------------------------------------------------------|
@@ -42,7 +42,7 @@ Set `application.cache.hazelcast.mode = client` to use following properties.
 
 ### Server Properties
 
-Set `application.cache.hazelcast.mode = server` to use following properties.
+Set `application.cache.hazelcast.mode = server` to use the following properties.
 
 | Property                                                          | Description                                                  |
 |-------------------------------------------------------------------|--------------------------------------------------------------|
