@@ -1,0 +1,32 @@
+name: Maven
+
+on:
+  push:
+    branches: [ master, features/staging ]
+
+jobs:
+  build:
+
+    # Use Ubuntu 24.04 as the runner environment
+    runs-on: ubuntu-24.04
+
+    strategy:
+      matrix:
+        # Test against JDK 21
+        jdk_version: [ '21' ]
+
+    steps:
+      # Check out source code
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      # Set up Oracle JDK
+      - name: Set up JDK ${{ matrix.jdk_version }}
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'oracle'
+          java-version: ${{ matrix.jdk_version }}
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn -B verify --file pom.xml

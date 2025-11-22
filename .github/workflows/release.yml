@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  workflow_dispatch:
+jobs:
+  publish:
+
+    # Use Ubuntu 24.04 as the runner environment
+    runs-on: ubuntu-24.04
+
+    steps:
+      # Check out source code
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          # Fetch all history for tags (needed for some versioning plugins)
+          fetch-depth: 0
+
+      # Set up Oracle JDK
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'oracle'
+          java-version: '21'
+          cache: 'maven'
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
+
+      - name: Publish package
+        run: mvn --batch-mode --no-transfer-progress -P release clean deploy -DskipTests
+        env:
+          MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
