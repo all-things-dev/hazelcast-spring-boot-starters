@@ -5,7 +5,7 @@ Spring Boot starters for configuring Hazelcast server and client instances.
 ## System Requirements
 
 1. JDK 17
-2. Spring Boot 3.5 and later
+2. Spring Boot 4.0 and later
 3. Hazelcast 5.7 and later
 
 ## Usage
@@ -13,7 +13,6 @@ Spring Boot starters for configuring Hazelcast server and client instances.
 Add the following dependency to your `pom.xml` file:
 
 ```xml
-
 <dependency>
 	<groupId>dev.all-things.boot</groupId>
 	<artifactId>hazelcast-spring-boot-starter</artifactId>
@@ -21,14 +20,13 @@ Add the following dependency to your `pom.xml` file:
 </dependency>
 ```
 
-### Known Issue with Hazelcast v5.6.0 and Above
+### Known Issue with Hazelcast v5.7.0 and Above
 
-For Hazelcast v5.6.0 and above, exclude `HazelcastBoot3ObjectExtractionAutoConfiguration` from autoconfiguration to avoid Hazelcast forcing Spring Boot to initialize `HazelcastInstance` before all configuration properties are even resolved.
+For Hazelcast v5.7.0 and above, exclude `HazelcastBoot4ObjectExtractionAutoConfiguration` from autoconfiguration to avoid Hazelcast forcing Spring Boot to initialize `HazelcastInstance` before all configuration properties are even resolved.
 
 See https://github.com/hazelcast/hazelcast/issues/26553.
 
 ```java
-
 @SpringBootApplication(/*...*/, exclude = HazelcastBoot3ObjectExtractionAutoConfiguration.class)
 public class Application
 {
