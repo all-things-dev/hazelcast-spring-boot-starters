@@ -20,6 +20,19 @@ Add the following dependency to your `pom.xml` file:
 </dependency>
 ```
 
+### Known Issue with Hazelcast v5.6.0
+
+For Hazelcast v5.6.0, exclude `HazelcastObjectExtractionConfiguration` from auto configuration to avoid Hazelcast forcing 
+Spring Boot to initialize `HazelcastInstance` before all configuration properties are even resolved.
+
+```java
+@SpringBootApplication(/*...*/, exclude = HazelcastObjectExtractionConfiguration.class)
+public class Application
+{
+	// ...
+}
+```
+
 ## Configuration Properties
 
 ### Common Properties
