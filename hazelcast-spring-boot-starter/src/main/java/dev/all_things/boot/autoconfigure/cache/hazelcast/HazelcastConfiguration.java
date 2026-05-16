@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
@@ -32,7 +31,6 @@ import org.springframework.context.annotation.*;
  * {@code @Configuration(value = "defaultHazelcastConfiguration")} is required to avoid
  * bean-name conflict when the application also provides {@link HazelcastConfiguration}.
  */
-@EnableConfigurationProperties(HazelcastProperties.class)
 @EnableCaching(mode = AdviceMode.PROXY, proxyTargetClass = true)
 @Configuration(value = "defaultHazelcastConfiguration", proxyBeanMethods = false)
 public class HazelcastConfiguration
@@ -62,14 +60,14 @@ public class HazelcastConfiguration
 
 		// Configuring client connection retry properties
 		config.getConnectionStrategyConfig()
-			  .getConnectionRetryConfig()
-			  .setClusterConnectTimeoutMillis(Long.MAX_VALUE); // Retry connecting to cluster indefinitely
+		      .getConnectionRetryConfig()
+		      .setClusterConnectTimeoutMillis(Long.MAX_VALUE); // Retry connecting to cluster indefinitely
 
 		// Configuration network properties
 		final ClientNetworkConfig networkConfig = config.getNetworkConfig();
 
 		networkConfig.setAddresses(properties.getServerAddresses()) // Configuring addresses of servers in cluster
-					 .setConnectionTimeout((int) properties.getConnectionTimeout().toMillis()); // Configuring client connection timeout
+		             .setConnectionTimeout((int) properties.getConnectionTimeout().toMillis()); // Configuring client connection timeout
 
 		// Configuring routing mode
 		networkConfig.getClusterRoutingConfig().setRoutingMode(properties.getRoutingMode());
@@ -107,11 +105,11 @@ public class HazelcastConfiguration
 		final List<String> secondaryAddresses = properties.getSecondaryAddresses();
 
 		networkConfig.setPort(properties.getPort()) // Configuring server port
-					 .setPublicAddress(properties.getPrimaryAddress())
-					 .setPortAutoIncrement(properties.getPortAutoIncrement().getEnabled()) // Configuring port auto-increment
-					 .getInterfaces()
-					 .setEnabled(!secondaryAddresses.isEmpty()) // Enabling server interfaces
-					 .setInterfaces(secondaryAddresses); // Configuring secondary addresses to bind to.
+		             .setPublicAddress(properties.getPrimaryAddress())
+		             .setPortAutoIncrement(properties.getPortAutoIncrement().getEnabled()) // Configuring port auto-increment
+		             .getInterfaces()
+		             .setEnabled(!secondaryAddresses.isEmpty()) // Enabling server interfaces
+		             .setInterfaces(secondaryAddresses); // Configuring secondary addresses to bind to.
 
 		final JoinConfig join = networkConfig.getJoin();
 
@@ -122,19 +120,19 @@ public class HazelcastConfiguration
 		join.getAutoDetectionConfig().setEnabled(false);
 
 		join.getMulticastConfig()
-			.setEnabled(multicast.getEnabled()) // Enabling / disabling clustering mode
-			.setMulticastGroup(multicast.getGroupName())
-			.setMulticastPort(multicast.getPort())
-			.setTrustedInterfaces(multicast.getTrustedInterfaces())
-			.setMulticastTimeoutSeconds((int) multicast.getTimeout().toSeconds())
-			.setMulticastTimeToLive(multicast.getTimeToLive());
+		    .setEnabled(multicast.getEnabled()) // Enabling / disabling clustering mode
+		    .setMulticastGroup(multicast.getGroupName())
+		    .setMulticastPort(multicast.getPort())
+		    .setTrustedInterfaces(multicast.getTrustedInterfaces())
+		    .setMulticastTimeoutSeconds((int) multicast.getTimeout().toSeconds())
+		    .setMulticastTimeToLive(multicast.getTimeToLive());
 
 		// Configuring clustering properties
 		final HazelcastProperties.Server.Cluster cluster = properties.getCluster();
 
 		join.getTcpIpConfig()
-			.setEnabled(cluster.getEnabled()) // Enabling support for well-known members, if specified
-			.setMembers(createMembers(properties)); // Setting well-known members of the cluster
+		    .setEnabled(cluster.getEnabled()) // Enabling support for well-known members, if specified
+		    .setMembers(createMembers(properties)); // Setting well-known members of the cluster
 
 		// Updating {config} with custom map configurations
 		mapConfigurer.configure(config);
@@ -169,8 +167,8 @@ public class HazelcastConfiguration
 		final String primaryMember = server.getPrimaryAddress() + ":" + server.getPort();
 
 		return server.getCluster().getMembers().stream().map(HazelcastConfiguration::createMembers)
-					 .flatMap(Collection::stream).filter(member -> !member.equals(primaryMember))
-					 .toList();
+		             .flatMap(Collection::stream).filter(member -> !member.equals(primaryMember))
+		             .toList();
 	}
 
 	/**
@@ -191,7 +189,7 @@ public class HazelcastConfiguration
 		final String[] portGroups = member.substring(member.indexOf("[") + 1, member.indexOf("]")).split(";");
 
 		return Arrays.stream(portGroups).map(portGroup -> createMembers(address, portGroup))
-					 .flatMap(Collection::stream).toList();
+		             .flatMap(Collection::stream).toList();
 	}
 
 	/**
@@ -213,7 +211,7 @@ public class HazelcastConfiguration
 
 		// Handles port ranges e.g. 5701-5702
 		final String[] memberPorts = IntStream.rangeClosed(Integer.parseInt(ports[0]), Integer.parseInt(ports[1]))
-											  .boxed().map(String::valueOf).toArray(String[]::new);
+		                                      .boxed().map(String::valueOf).toArray(String[]::new);
 
 		return createMembers(address, memberPorts);
 	}

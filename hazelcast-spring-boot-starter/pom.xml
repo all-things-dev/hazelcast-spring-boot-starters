@@ -90,7 +90,7 @@
 
 		<dependency>
 			<groupId>com.hazelcast</groupId>
-			<artifactId>hazelcast-spring</artifactId>
+			<artifactId>hazelcast-spring-boot3</artifactId>
 		</dependency>
 
 		<!-- Testing -->
