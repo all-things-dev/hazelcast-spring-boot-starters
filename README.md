@@ -6,7 +6,7 @@ Spring Boot starters for configuring Hazelcast server and client instances.
 
 1. JDK 17
 2. Spring Boot 3.5 and later
-3. Hazelcast 5.5 and later
+3. Hazelcast 5.6 and later
 
 ## Usage
 

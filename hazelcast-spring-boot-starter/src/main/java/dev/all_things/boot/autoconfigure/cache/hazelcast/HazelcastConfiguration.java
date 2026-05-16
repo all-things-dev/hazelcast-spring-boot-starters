@@ -46,8 +46,8 @@ public class HazelcastConfiguration
 	 * @param hazelcastProperties for configuring {@link HazelcastInstance}.
 	 * @return {@link HazelcastInstance} instance customized according to {@link HazelcastProperties}.
 	 */
-	@Bean(name = "hazelcastInstance", destroyMethod = "shutdown")
 	@ConditionalOnMissingBean(HazelcastInstance.class)
+	@Bean(name = "hazelcastInstance", destroyMethod = "shutdown")
 	@ConditionalOnProperty(prefix = "application.cache.hazelcast", name = "mode", havingValue = "client")
 	public HazelcastInstance hazelcastClientInstance(final HazelcastProperties hazelcastProperties)
 	{
@@ -88,8 +88,8 @@ public class HazelcastConfiguration
 	 * @param hazelcastProperties for configuring {@link HazelcastInstance}.
 	 * @return {@link HazelcastInstance} instance customized according to {@link HazelcastProperties}.
 	 */
-	@Bean(name = "hazelcastInstance", destroyMethod = "shutdown")
 	@ConditionalOnMissingBean(HazelcastInstance.class)
+	@Bean(name = "hazelcastInstance", destroyMethod = "shutdown")
 	@ConditionalOnProperty(prefix = "application.cache.hazelcast", name = "mode", havingValue = "server", matchIfMissing = true)
 	public HazelcastInstance hazelcastServerInstance(final HazelcastProperties hazelcastProperties, final HazelcastMapConfigurer mapConfigurer)
 	{

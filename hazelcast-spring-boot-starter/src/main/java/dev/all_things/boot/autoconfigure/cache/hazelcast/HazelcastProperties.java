@@ -3,7 +3,7 @@ package dev.all_things.boot.autoconfigure.cache.hazelcast;
 import java.time.Duration;
 import java.util.*;
 
-import com.hazelcast.client.impl.connection.tcp.RoutingMode;
+import com.hazelcast.client.config.RoutingMode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
